@@ -57,6 +57,7 @@ function CasosEstudioModal() {
         size="lg"
         className="ts-modal"
         aria-labelledby="titulo-caso"
+        restoreFocus={false}
       >
         {casoActivo && (
           <>
@@ -84,13 +85,25 @@ function CasosEstudioModal() {
                 </ul>
               </div>
             </Modal.Body>
-            <Modal.Footer>
+          <Modal.Footer>
               <button type="button" className="btn btn-ts-outline" onClick={cerrar}>
                 Cerrar
               </button>
-              <a href="#contacto" className="btn btn-ts-primary" onClick={cerrar}>
+              <button 
+                type="button" 
+                className="btn btn-ts-primary" 
+                onClick={() => {
+                  cerrar();
+                  setTimeout(() => {
+                    const contacto = document.getElementById('contacto');
+                    if (contacto) {
+                      contacto.scrollIntoView({ behavior: 'smooth' });
+                    }
+                  }, 150);
+                }}
+              >
                 Quiero algo así
-              </a>
+              </button>
             </Modal.Footer>
           </>
         )}

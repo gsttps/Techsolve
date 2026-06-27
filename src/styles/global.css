@@ -110,6 +110,18 @@ a {
   border-bottom: 1px solid var(--ts-border);
 }
 
+.ts-navbar .navbar-brand {
+  color: var(--ts-heading) !important;
+  transition: opacity 0.2s ease;
+}
+
+.ts-navbar .navbar-brand:hover,
+.ts-navbar .navbar-brand:focus {
+  color: var(--ts-heading) !important;
+  opacity: 0.9;
+}
+
+
 .ts-navbar .nav-link {
   color: var(--ts-text-muted) !important;
   font-weight: 500;

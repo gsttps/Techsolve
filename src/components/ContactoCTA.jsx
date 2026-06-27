@@ -69,7 +69,7 @@ function ContactoCTA() {
               </p>
               <p className="ts-contacto-dato mb-0">
                 <strong>Teléfono:</strong>{' '}
-                <a href="tel:+34910000000">+34 910 000 000</a>
+                <a href="tel:+56912345678">+56 912 345 678</a>
               </p>
             </div>
           </Col>
