@@ -4,6 +4,7 @@ import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import Form from 'react-bootstrap/Form';
 import Alert from 'react-bootstrap/Alert';
+import Icon from './Icon.jsx';
 
 const valoresIniciales = { nombre: '', email: '', mensaje: '' };
 const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -52,8 +53,8 @@ function ContactoCTA() {
     <section id="contacto" className="seccion">
       <Container>
         <Row className="g-5 align-items-center">
-          <Col lg={5} className="anim-aparece">
-            <p className="seccion-eyebrow mb-2">Hablemos</p>
+          <Col lg={5} className="reveal">
+            <p className="seccion-eyebrow mb-3">Hablemos</p>
             <h2 className="seccion-titulo mb-3">
               ¿Listo para llevar tu empresa al{' '}
               <span className="texto-gradiente">siguiente nivel</span>?
@@ -62,19 +63,30 @@ function ContactoCTA() {
               Cuéntanos tu desafío y te propondremos un plan claro, sin compromiso.
               Nuestro equipo te responderá en menos de 24 horas.
             </p>
-            <div className="d-grid gap-2">
-              <p className="ts-contacto-dato mb-1">
-                <strong>Correo:</strong>{' '}
-                <a href="mailto:contacto@techsolve.com">contacto@techsolve.com</a>
-              </p>
-              <p className="ts-contacto-dato mb-0">
-                <strong>Teléfono:</strong>{' '}
-                <a href="tel:+56912345678">+56 912 345 678</a>
-              </p>
-            </div>
+
+            <ul className="ts-contacto-lista list-unstyled mb-0">
+              <li className="ts-contacto-item">
+                <span className="ts-icono ts-icono-sm" aria-hidden="true">
+                  <Icon name="mail" size={20} />
+                </span>
+                <span>
+                  <small className="texto-muted d-block">Correo</small>
+                  <a href="mailto:contacto@techsolve.com">contacto@techsolve.com</a>
+                </span>
+              </li>
+              <li className="ts-contacto-item">
+                <span className="ts-icono ts-icono-sm" aria-hidden="true">
+                  <Icon name="phone" size={20} />
+                </span>
+                <span>
+                  <small className="texto-muted d-block">Teléfono</small>
+                  <a href="tel:+56912345678">+56 912 345 678</a>
+                </span>
+              </li>
+            </ul>
           </Col>
 
-          <Col lg={7} className="anim-aparece anim-delay-2">
+          <Col lg={7} className="reveal rd-2">
             <div className="ts-card p-4 p-md-5">
               {enviado && (
                 <Alert
@@ -136,6 +148,7 @@ function ContactoCTA() {
 
                 <button type="submit" className="btn btn-ts-primary w-100">
                   Enviar mensaje
+                  <Icon name="arrow-right" size={18} className="ms-1" />
                 </button>
               </Form>
             </div>

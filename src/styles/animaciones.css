@@ -1,9 +1,22 @@
-/* ============================================================
-   TechSolve · Animaciones CSS propias
-   Suaves y profesionales — sin abusar del movimiento
-   ============================================================ */
+/* ============================================================================
+   TechSolve · ANIMACIONES
+   Movimiento suave y profesional, sin distraer. Dos grupos:
+   - Animaciones de carga del hero (se ejecutan una vez al abrir).
+   - Revelado al hacer scroll (clase .reveal, activada por useScrollReveal).
 
-/* ---------- Keyframes ---------- */
+   ÍNDICE
+   01. Keyframes
+   02. Carga del hero
+   03. Revelado al hacer scroll (.reveal)
+   04. Retrasos escalonados (.rd-*)
+   05. Detalles (punto del timeline)
+   ========================================================================== */
+
+/* ----------------------------------------------------------------------------
+   01. KEYFRAMES
+---------------------------------------------------------------------------- */
+
+/* Aparece desde abajo con desvanecido */
 @keyframes ts-fade-up {
   from {
     opacity: 0;
@@ -15,6 +28,7 @@
   }
 }
 
+/* Solo desvanecido */
 @keyframes ts-fade-in {
   from {
     opacity: 0;
@@ -24,16 +38,7 @@
   }
 }
 
-@keyframes ts-pulse {
-  0%,
-  100% {
-    box-shadow: 0 10px 24px -10px rgba(59, 130, 246, 0.8);
-  }
-  50% {
-    box-shadow: 0 10px 30px -6px rgba(59, 130, 246, 1);
-  }
-}
-
+/* Flotación continua y sutil (panel del hero) */
 @keyframes ts-float {
   0%,
   100% {
@@ -44,62 +49,69 @@
   }
 }
 
-@keyframes ts-dot-in {
-  from {
-    opacity: 0;
-    transform: scale(0.4);
+/* Anillo que late alrededor del punto del timeline */
+@keyframes ts-anillo {
+  0% {
+    box-shadow: 0 0 0 0 rgba(34, 211, 238, 0.35);
   }
-  to {
-    opacity: 1;
-    transform: scale(1);
+  70% {
+    box-shadow: 0 0 0 10px rgba(34, 211, 238, 0);
+  }
+  100% {
+    box-shadow: 0 0 0 0 rgba(34, 211, 238, 0);
   }
 }
 
-/* ---------- Aparición del Hero ---------- */
+/* ----------------------------------------------------------------------------
+   02. CARGA DEL HERO
+   Cada elemento entra con un pequeño retraso encadenado (efecto cascada).
+---------------------------------------------------------------------------- */
 .anim-hero-titulo {
   animation: ts-fade-up 0.8s ease both;
 }
-
 .anim-hero-sub {
   animation: ts-fade-up 0.8s ease 0.15s both;
 }
-
 .anim-hero-cta {
   animation: ts-fade-up 0.8s ease 0.3s both;
 }
-
+/* El panel aparece y luego flota suavemente de forma indefinida */
 .anim-hero-art {
-  animation: ts-fade-in 1s ease 0.2s both, ts-float 6s ease-in-out 1.2s infinite;
+  animation: ts-fade-in 1s ease 0.2s both, ts-float 6s ease-in-out 1.4s infinite;
 }
 
-/* ---------- Aparición de secciones al cargar ---------- */
-.anim-aparece {
-  animation: ts-fade-up 0.7s ease both;
+/* ----------------------------------------------------------------------------
+   03. REVELADO AL HACER SCROLL
+   Estado inicial oculto; useScrollReveal añade .is-visible al entrar en
+   pantalla y la transición hace el resto.
+---------------------------------------------------------------------------- */
+.reveal {
+  opacity: 0;
+  transform: translateY(30px);
+  transition: opacity 0.7s cubic-bezier(0.2, 0.7, 0.2, 1),
+    transform 0.7s cubic-bezier(0.2, 0.7, 0.2, 1);
+  will-change: opacity, transform;
+}
+.reveal.is-visible {
+  opacity: 1;
+  transform: none;
 }
 
-/* Retrasos escalonados para listas/grids */
-.anim-delay-1 {
-  animation-delay: 0.08s;
-}
-.anim-delay-2 {
-  animation-delay: 0.16s;
-}
-.anim-delay-3 {
-  animation-delay: 0.24s;
-}
-.anim-delay-4 {
-  animation-delay: 0.32s;
-}
-.anim-delay-5 {
-  animation-delay: 0.40s;
-}
+/* ----------------------------------------------------------------------------
+   04. RETRASOS ESCALONADOS
+   Aplican un pequeño desfase para que los elementos de una misma fila/lista
+   aparezcan uno tras otro.
+---------------------------------------------------------------------------- */
+.rd-1 { transition-delay: 0.08s; }
+.rd-2 { transition-delay: 0.16s; }
+.rd-3 { transition-delay: 0.24s; }
+.rd-4 { transition-delay: 0.32s; }
+.rd-5 { transition-delay: 0.40s; }
 
-/* ---------- Botón con latido sutil (CTA principal) ---------- */
-.anim-pulse {
-  animation: ts-pulse 2.8s ease-in-out infinite;
-}
-
-/* ---------- Timeline: entrada de los puntos ---------- */
-.ts-timeline-dot {
-  animation: ts-dot-in 0.5s ease both;
+/* ----------------------------------------------------------------------------
+   05. DETALLES
+---------------------------------------------------------------------------- */
+/* El punto del timeline late suavemente cuando su etapa es visible */
+.reveal.is-visible .ts-timeline-dot {
+  animation: ts-anillo 2.4s ease-out 0.3s infinite;
 }

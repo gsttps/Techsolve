@@ -2,7 +2,7 @@
 export const servicios = [
   {
     id: 'desarrollo-web',
-    icono: '🌐',
+    icono: 'code',
     titulo: 'Desarrollo Web Empresarial',
     descripcion:
       'Diseñamos y construimos aplicaciones y portales web a medida para empresas, con foco en rendimiento, escalabilidad y una experiencia de usuario impecable. Trabajamos con arquitecturas modernas que crecen junto a tu negocio.',
@@ -15,7 +15,7 @@ export const servicios = [
   },
   {
     id: 'ciberseguridad',
-    icono: '🛡️',
+    icono: 'shield',
     titulo: 'Ciberseguridad',
     descripcion:
       'Protegemos tu infraestructura y tus datos frente a amenazas digitales. Realizamos auditorías, pruebas de penetración y planes de respuesta para que tu empresa opere con tranquilidad y cumpla la normativa vigente.',
@@ -28,7 +28,7 @@ export const servicios = [
   },
   {
     id: 'cloud',
-    icono: '☁️',
+    icono: 'cloud',
     titulo: 'Infraestructura Cloud',
     descripcion:
       'Migramos, desplegamos y optimizamos tu infraestructura en la nube con prácticas de DevOps. Reducimos costes, mejoramos la disponibilidad y automatizamos despliegues para que tu equipo entregue más rápido.',
@@ -41,7 +41,7 @@ export const servicios = [
   },
   {
     id: 'datos',
-    icono: '📊',
+    icono: 'bar-chart',
     titulo: 'Consultoría de Datos',
     descripcion:
       'Transformamos tus datos en decisiones. Diseñamos pipelines, paneles de Business Intelligence y modelos analíticos que revelan oportunidades de negocio y mejoran la eficiencia operativa.',

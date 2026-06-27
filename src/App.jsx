@@ -5,8 +5,12 @@ import CasosEstudioModal from './components/CasosEstudioModal.jsx';
 import TimelineProyectos from './components/TimelineProyectos.jsx';
 import ContactoCTA from './components/ContactoCTA.jsx';
 import Footer from './components/Footer.jsx';
+import { useScrollReveal } from './hooks/useScrollReveal.js';
 
 function App() {
+  // Activa las animaciones de aparición al hacer scroll (clase .reveal).
+  useScrollReveal();
+
   return (
     <>
       <NavbarCorporativo />

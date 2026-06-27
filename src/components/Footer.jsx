@@ -1,6 +1,7 @@
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
+import Icon from './Icon.jsx';
 
 const enlaces = [
   { href: '#inicio', texto: 'Inicio' },
@@ -18,10 +19,15 @@ function Footer() {
       <Container>
         <Row className="gy-4 align-items-center">
           <Col md={5}>
-            <span className="fw-bold fs-5">
-              <span className="texto-gradiente">Tech</span>Solve
+            <span className="ts-brand">
+              <span className="ts-brand-mark" aria-hidden="true">
+                <Icon name="hexagon" size={24} />
+              </span>
+              <span className="ts-brand-texto">
+                <span className="texto-gradiente">Tech</span>Solve
+              </span>
             </span>
-            <p className="mb-0 mt-2">
+            <p className="mb-0 mt-3">
               Consultoría de TI que impulsa el crecimiento de tu empresa.
             </p>
           </Col>
@@ -37,7 +43,7 @@ function Footer() {
             </nav>
           </Col>
         </Row>
-        <hr style={{ borderColor: 'var(--ts-border)' }} />
+        <hr className="ts-footer-sep" />
         <p className="text-center mb-0 small">
           © {anio} TechSolve · Consultoría de TI. Todos los derechos reservados.
         </p>

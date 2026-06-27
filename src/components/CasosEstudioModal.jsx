@@ -3,8 +3,9 @@ import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import Card from 'react-bootstrap/Card';
-import Badge from 'react-bootstrap/Badge';
 import Modal from 'react-bootstrap/Modal';
+import Icon from './Icon.jsx';
+import SeccionCabecera from './SeccionCabecera.jsx';
 import { casosEstudio } from '../data/casosEstudio.js';
 
 function CasosEstudioModal() {
@@ -16,32 +17,27 @@ function CasosEstudioModal() {
   return (
     <section id="casos" className="seccion">
       <Container>
-        <Row className="justify-content-center text-center mb-5">
-          <Col lg={8} className="anim-aparece">
-            <p className="seccion-eyebrow mb-2">Casos de éxito</p>
-            <h2 className="seccion-titulo">Resultados reales para clientes reales</h2>
-            <p className="texto-muted mt-3">
-              Algunos proyectos donde la tecnología marcó la diferencia.
-            </p>
-          </Col>
-        </Row>
+        <SeccionCabecera
+          eyebrow="Casos de éxito"
+          titulo="Resultados reales para clientes reales"
+          subtitulo="Algunos proyectos donde la tecnología marcó la diferencia."
+        />
 
         <Row className="g-4">
           {casosEstudio.map((caso, indice) => (
             <Col md={6} lg={4} key={caso.id}>
-              <Card className={`ts-card anim-aparece anim-delay-${indice + 1} p-2`}>
-                <Card.Body className="d-flex flex-column">
-                  <Badge bg="" className="ts-icono mb-3" style={{ width: 'auto', fontSize: '0.75rem' }}>
-                    {caso.sector}
-                  </Badge>
+              <Card className={`ts-card caso-card reveal rd-${indice + 1}`}>
+                <Card.Body className="d-flex flex-column p-4">
+                  <span className="ts-chip mb-3">{caso.sector}</span>
                   <Card.Title className="h5">{caso.cliente}</Card.Title>
                   <Card.Text className="texto-muted flex-grow-1">{caso.resumen}</Card.Text>
                   <button
                     type="button"
-                    className="btn btn-ts-outline align-self-start mt-2"
+                    className="btn btn-ts-ghost align-self-start mt-2"
                     onClick={() => setCasoActivo(caso)}
                   >
                     Ver Caso
+                    <Icon name="arrow-right" size={18} className="ms-1" />
                   </button>
                 </Card.Body>
               </Card>
@@ -85,13 +81,13 @@ function CasosEstudioModal() {
                 </ul>
               </div>
             </Modal.Body>
-          <Modal.Footer>
+            <Modal.Footer>
               <button type="button" className="btn btn-ts-outline" onClick={cerrar}>
                 Cerrar
               </button>
-              <button 
-                type="button" 
-                className="btn btn-ts-primary" 
+              <button
+                type="button"
+                className="btn btn-ts-primary"
                 onClick={() => {
                   cerrar();
                   setTimeout(() => {
@@ -103,6 +99,7 @@ function CasosEstudioModal() {
                 }}
               >
                 Quiero algo así
+                <Icon name="arrow-right" size={18} className="ms-1" />
               </button>
             </Modal.Footer>
           </>
