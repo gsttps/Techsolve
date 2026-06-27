@@ -1,0 +1,383 @@
+/* ============================================================
+   TechSolve · Estilos globales
+   Tema corporativo oscuro con acento azul y fondo en degradado
+   ============================================================ */
+
+:root {
+  /* Paleta corporativa */
+  --ts-bg-1: #070b16;
+  --ts-bg-2: #0b1326;
+  --ts-bg-3: #0f1d3a;
+  --ts-surface: rgba(255, 255, 255, 0.04);
+  --ts-surface-strong: rgba(255, 255, 255, 0.07);
+  --ts-border: rgba(255, 255, 255, 0.10);
+
+  --ts-primary: #3b82f6;
+  --ts-primary-strong: #2563eb;
+  --ts-accent: #22d3ee;
+
+  --ts-text: #e6eaf2;
+  --ts-text-muted: #9aa7bd;
+  --ts-heading: #ffffff;
+
+  --ts-shadow: 0 18px 40px -18px rgba(0, 0, 0, 0.65);
+  --ts-radius: 16px;
+
+  /* Sobrescribe variables de Bootstrap para el tema oscuro */
+  --bs-body-color: var(--ts-text);
+  --bs-primary: var(--ts-primary);
+  --bs-primary-rgb: 59, 130, 246;
+
+  color-scheme: dark;
+  scroll-behavior: smooth;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  min-height: 100vh;
+  color: var(--ts-text);
+  font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+  line-height: 1.6;
+  background-color: var(--ts-bg-1);
+  /* Fondo en degradado corporativo con halos azules */
+  background-image:
+    radial-gradient(1100px 600px at 85% -5%, rgba(34, 211, 238, 0.10), transparent 60%),
+    radial-gradient(900px 600px at 0% 10%, rgba(59, 130, 246, 0.16), transparent 55%),
+    linear-gradient(180deg, var(--ts-bg-1) 0%, var(--ts-bg-2) 45%, var(--ts-bg-3) 100%);
+  background-attachment: fixed;
+}
+
+/* ---------- Tipografía ---------- */
+h1, h2, h3, h4, h5, h6 {
+  color: var(--ts-heading);
+  font-weight: 700;
+  letter-spacing: -0.02em;
+}
+
+h2.seccion-titulo {
+  font-size: clamp(1.8rem, 4vw, 2.6rem);
+}
+
+.texto-muted {
+  color: var(--ts-text-muted);
+}
+
+.texto-gradiente {
+  background: linear-gradient(90deg, var(--ts-primary) 0%, var(--ts-accent) 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+a {
+  color: var(--ts-primary);
+}
+
+/* ---------- Layout de secciones ---------- */
+.seccion {
+  padding: 5.5rem 0;
+  /* Compensa el navbar fijo al hacer scroll suave */
+  scroll-margin-top: 80px;
+}
+
+.seccion-alt {
+  background: var(--ts-surface);
+  border-top: 1px solid var(--ts-border);
+  border-bottom: 1px solid var(--ts-border);
+}
+
+.seccion-eyebrow {
+  text-transform: uppercase;
+  letter-spacing: 0.18em;
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--ts-accent);
+}
+
+/* ---------- Navbar ---------- */
+.ts-navbar {
+  background: rgba(7, 11, 22, 0.85) !important;
+  backdrop-filter: blur(10px);
+  border-bottom: 1px solid var(--ts-border);
+}
+
+.ts-navbar .nav-link {
+  color: var(--ts-text-muted) !important;
+  font-weight: 500;
+  transition: color 0.2s ease;
+}
+
+.ts-navbar .nav-link:hover,
+.ts-navbar .nav-link:focus {
+  color: var(--ts-heading) !important;
+}
+
+/* ---------- Botones ---------- */
+.btn-ts-primary {
+  --bs-btn-color: #fff;
+  background: linear-gradient(90deg, var(--ts-primary) 0%, var(--ts-primary-strong) 100%);
+  border: none;
+  color: #fff;
+  font-weight: 600;
+  border-radius: 999px;
+  padding: 0.65rem 1.6rem;
+  box-shadow: 0 10px 24px -10px rgba(59, 130, 246, 0.8);
+  transition: transform 0.2s ease, box-shadow 0.2s ease, filter 0.2s ease;
+}
+
+.btn-ts-primary:hover,
+.btn-ts-primary:focus {
+  color: #fff;
+  transform: translateY(-2px);
+  filter: brightness(1.08);
+  box-shadow: 0 16px 30px -12px rgba(59, 130, 246, 0.9);
+}
+
+.btn-ts-outline {
+  border: 1px solid var(--ts-border);
+  background: var(--ts-surface);
+  color: var(--ts-text);
+  font-weight: 600;
+  border-radius: 999px;
+  padding: 0.65rem 1.6rem;
+  transition: border-color 0.2s ease, background 0.2s ease, transform 0.2s ease;
+}
+
+.btn-ts-outline:hover,
+.btn-ts-outline:focus {
+  color: var(--ts-heading);
+  border-color: var(--ts-primary);
+  background: var(--ts-surface-strong);
+  transform: translateY(-2px);
+}
+
+/* ---------- Tarjetas / superficies ---------- */
+.ts-card {
+  background: var(--ts-surface);
+  border: 1px solid var(--ts-border);
+  border-radius: var(--ts-radius);
+  color: var(--ts-text);
+  height: 100%;
+  transition: transform 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease;
+}
+
+.ts-card:hover {
+  transform: translateY(-6px);
+  border-color: rgba(59, 130, 246, 0.55);
+  box-shadow: var(--ts-shadow);
+}
+
+.ts-icono {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 52px;
+  height: 52px;
+  border-radius: 14px;
+  font-size: 1.5rem;
+  background: rgba(59, 130, 246, 0.14);
+  border: 1px solid rgba(59, 130, 246, 0.35);
+}
+
+/* ---------- Acordeón (servicios) ---------- */
+.accordion.ts-accordion {
+  --bs-accordion-bg: transparent;
+  --bs-accordion-color: var(--ts-text);
+  --bs-accordion-border-color: var(--ts-border);
+  --bs-accordion-btn-color: var(--ts-heading);
+  --bs-accordion-btn-bg: var(--ts-surface);
+  --bs-accordion-active-bg: var(--ts-surface-strong);
+  --bs-accordion-active-color: var(--ts-heading);
+  --bs-accordion-btn-focus-box-shadow: 0 0 0 0.2rem rgba(59, 130, 246, 0.25);
+  --bs-accordion-btn-icon: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='%239aa7bd'%3e%3cpath fill-rule='evenodd' d='M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z'/%3e%3c/svg%3e");
+  --bs-accordion-btn-active-icon: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='%233b82f6'%3e%3cpath fill-rule='evenodd' d='M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z'/%3e%3c/svg%3e");
+}
+
+.ts-accordion .accordion-item {
+  background: transparent;
+  border: 1px solid var(--ts-border);
+  border-radius: var(--ts-radius) !important;
+  margin-bottom: 1rem;
+  overflow: hidden;
+}
+
+.ts-accordion .accordion-button {
+  font-weight: 600;
+  border-radius: var(--ts-radius) !important;
+}
+
+.ts-accordion .accordion-button:not(.collapsed) {
+  box-shadow: none;
+}
+
+.ts-beneficios {
+  list-style: none;
+  padding: 0;
+  margin: 1rem 0 0;
+  display: grid;
+  gap: 0.5rem;
+}
+
+.ts-beneficios li {
+  position: relative;
+  padding-left: 1.6rem;
+  color: var(--ts-text-muted);
+}
+
+.ts-beneficios li::before {
+  content: '✓';
+  position: absolute;
+  left: 0;
+  color: var(--ts-accent);
+  font-weight: 700;
+}
+
+/* ---------- Modal (casos) ---------- */
+.ts-modal .modal-content {
+  background: var(--ts-bg-2);
+  border: 1px solid var(--ts-border);
+  color: var(--ts-text);
+  border-radius: var(--ts-radius);
+}
+
+.ts-modal .modal-header,
+.ts-modal .modal-footer {
+  border-color: var(--ts-border);
+}
+
+.ts-modal .btn-close {
+  filter: invert(1) grayscale(1) brightness(1.6);
+}
+
+.ts-bloque-modal h6 {
+  color: var(--ts-accent);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  font-size: 0.8rem;
+}
+
+/* ---------- Timeline ---------- */
+.ts-timeline {
+  position: relative;
+  margin-top: 3rem;
+  padding-left: 2.5rem;
+}
+
+.ts-timeline::before {
+  content: '';
+  position: absolute;
+  left: 14px;
+  top: 6px;
+  bottom: 6px;
+  width: 2px;
+  background: linear-gradient(180deg, var(--ts-primary), var(--ts-accent));
+}
+
+.ts-timeline-item {
+  position: relative;
+  padding-bottom: 2.25rem;
+}
+
+.ts-timeline-item:last-child {
+  padding-bottom: 0;
+}
+
+.ts-timeline-dot {
+  position: absolute;
+  left: -2.5rem;
+  top: 0;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.95rem;
+  background: var(--ts-bg-3);
+  border: 2px solid var(--ts-primary);
+  box-shadow: 0 0 0 5px rgba(59, 130, 246, 0.12);
+}
+
+.ts-timeline-paso {
+  font-size: 0.75rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--ts-accent);
+  font-weight: 600;
+}
+
+/* ---------- Formulario de contacto ---------- */
+.ts-form .form-control {
+  background: var(--ts-surface);
+  border: 1px solid var(--ts-border);
+  color: var(--ts-text);
+}
+
+.ts-form .form-control:focus {
+  background: var(--ts-surface-strong);
+  border-color: var(--ts-primary);
+  box-shadow: 0 0 0 0.2rem rgba(59, 130, 246, 0.2);
+  color: var(--ts-text);
+}
+
+.ts-form .form-control::placeholder {
+  color: var(--ts-text-muted);
+}
+
+.ts-form .form-label {
+  color: var(--ts-text);
+  font-weight: 500;
+}
+
+.ts-contacto-dato {
+  color: var(--ts-text-muted);
+}
+
+.ts-contacto-dato strong {
+  color: var(--ts-heading);
+}
+
+/* ---------- Footer ---------- */
+.ts-footer {
+  background: rgba(4, 7, 14, 0.7);
+  border-top: 1px solid var(--ts-border);
+  color: var(--ts-text-muted);
+  padding: 2.5rem 0;
+}
+
+.ts-footer a {
+  color: var(--ts-text-muted);
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+
+.ts-footer a:hover {
+  color: var(--ts-heading);
+}
+
+/* ---------- Responsive ---------- */
+@media (max-width: 768px) {
+  .seccion {
+    padding: 4rem 0;
+  }
+}
+
+/* Respeta la preferencia de reducir movimiento */
+@media (prefers-reduced-motion: reduce) {
+  :root {
+    scroll-behavior: auto;
+  }
+  * {
+    animation: none !important;
+    transition: none !important;
+  }
+}
