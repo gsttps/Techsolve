@@ -15,7 +15,6 @@
 /* ----------------------------------------------------------------------------
    01. KEYFRAMES
 ---------------------------------------------------------------------------- */
-
 /* Aparece desde abajo con desvanecido */
 @keyframes ts-fade-up {
   from {
@@ -59,6 +58,13 @@
   }
   100% {
     box-shadow: 0 0 0 0 rgba(34, 211, 238, 0);
+  }
+}
+
+/* Giro continuo (spinner del panel de Solicitudes) */
+@keyframes ts-girar {
+  to {
+    transform: rotate(360deg);
   }
 }
 
@@ -114,4 +120,16 @@
 /* El punto del timeline late suavemente cuando su etapa es visible */
 .reveal.is-visible .ts-timeline-dot {
   animation: ts-anillo 2.4s ease-out 0.3s infinite;
+}
+
+/* ----------------------------------------------------------------------------
+   06. ACCESIBILIDAD · respeta "reducir movimiento"
+---------------------------------------------------------------------------- */
+@media (prefers-reduced-motion: reduce) {
+  * ,
+  *::before,
+  *::after {
+    animation: none !important;
+    transition: none !important;
+  }
 }

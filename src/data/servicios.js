@@ -1,4 +1,5 @@
-// Servicios que ofrece TechSolve. Se renderizan en el acordeón de la sección "Servicios".
+// Servicios que ofrece TechSolve. Se renderizan en el acordeón de la sección "Servicios"
+// y también alimentan el selector "servicioId" del formulario de Solicitudes (CRUD).
 export const servicios = [
   {
     id: 'desarrollo-web',
@@ -52,4 +53,4 @@ export const servicios = [
       'Gobierno y calidad del dato',
     ],
   },
-]
+];

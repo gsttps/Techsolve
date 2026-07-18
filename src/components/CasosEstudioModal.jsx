@@ -11,7 +11,6 @@ import { casosEstudio } from '../data/casosEstudio.js';
 function CasosEstudioModal() {
   // Caso seleccionado para mostrar en el modal (null = modal cerrado).
   const [casoActivo, setCasoActivo] = useState(null);
-
   const cerrar = () => setCasoActivo(null);
 
   return (
@@ -22,7 +21,6 @@ function CasosEstudioModal() {
           titulo="Resultados reales para clientes reales"
           subtitulo="Algunos proyectos donde la tecnología marcó la diferencia."
         />
-
         <Row className="g-4">
           {casosEstudio.map((caso, indice) => (
             <Col md={6} lg={4} key={caso.id}>

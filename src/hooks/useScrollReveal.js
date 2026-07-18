@@ -8,7 +8,7 @@
 // ============================================================
 import { useEffect } from 'react';
 
-export function useScrollReveal() {
+export function useScrollReveal(deps = []) {
   useEffect(() => {
     const elementos = document.querySelectorAll('.reveal');
 
@@ -36,5 +36,6 @@ export function useScrollReveal() {
 
     // Limpieza al desmontar el componente.
     return () => observador.disconnect();
-  }, []);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, deps);
 }

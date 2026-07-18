@@ -35,4 +35,4 @@ export const timeline = [
     descripcion:
       'Acompañamos tu operación con monitoreo, mantenimiento y mejoras continuas para que la solución siga aportando valor.',
   },
-]
+];

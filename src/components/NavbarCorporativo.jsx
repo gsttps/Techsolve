@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
 import Navbar from 'react-bootstrap/Navbar';
 import Container from 'react-bootstrap/Container';
 import Nav from 'react-bootstrap/Nav';
@@ -34,7 +35,7 @@ function NavbarCorporativo() {
       collapseOnSelect
     >
       <Container>
-        <Navbar.Brand href="#inicio" className="ts-brand">
+        <Navbar.Brand as={Link} to="/" className="ts-brand">
           <span className="ts-brand-mark" aria-hidden="true">
             <Icon name="hexagon" size={26} />
           </span>
@@ -42,9 +43,7 @@ function NavbarCorporativo() {
             <span className="texto-gradiente">Tech</span>Solve
           </span>
         </Navbar.Brand>
-
         <Navbar.Toggle aria-controls="menu-corporativo" aria-label="Abrir menú" />
-
         <Navbar.Collapse id="menu-corporativo">
           <Nav className="ms-auto align-items-lg-center">
             {enlaces.map((enlace) => (
@@ -52,6 +51,9 @@ function NavbarCorporativo() {
                 {enlace.texto}
               </Nav.Link>
             ))}
+            <Nav.Link as={Link} to="/solicitudes" className="px-3">
+              Panel de Solicitudes
+            </Nav.Link>
             <Nav.Link
               href="#contacto"
               className="btn btn-ts-primary text-white ms-lg-3 mt-2 mt-lg-0"

@@ -21,47 +21,51 @@
    15. Formulario de contacto
    16. Footer
    17. Responsive
+   17b. Fallback sin backdrop-filter (glassmorfismo degradado con gracia)
    18. Accesibilidad (reduce-motion)
+   19. Panel de Solicitudes (CRUD conectado a la API)
    ========================================================================== */
 
 /* ----------------------------------------------------------------------------
    01. TOKENS DE DISEÑO
-   Centralizamos colores, radios y sombras en variables para mantener
-   coherencia y poder reajustar el tema desde un solo lugar.
 ---------------------------------------------------------------------------- */
 :root {
-  /* Fondos (de más oscuro a más claro) */
   --ts-bg-1: #05070e;
   --ts-bg-2: #080c18;
   --ts-bg-3: #0d1326;
 
-  /* Superficies translúcidas (efecto vidrio) */
   --ts-surface: rgba(255, 255, 255, 0.04);
   --ts-surface-strong: rgba(255, 255, 255, 0.07);
   --ts-border: rgba(255, 255, 255, 0.10);
 
-  /* Color de marca */
-  --ts-primary: #3b82f6;        /* azul corporativo */
-  --ts-primary-strong: #2563eb; /* azul más intenso */
-  --ts-accent: #22d3ee;         /* cian de acento */
-  --ts-violet: #6366f1;         /* violeta para dar profundidad a la malla */
+  --ts-primary: #3b82f6;
+  --ts-primary-strong: #2563eb;
+  --ts-accent: #22d3ee;
+  --ts-violet: #6366f1;
+  --ts-danger: #f43f5e;
+  --ts-success: #34d399;
+  --ts-warning: #fbbf24;
 
-  /* Texto */
   --ts-text: #e7ecf5;
   --ts-text-muted: #97a3ba;
   --ts-heading: #ffffff;
 
-  /* Radios y sombras */
   --ts-radius: 18px;
   --ts-radius-sm: 12px;
   --ts-shadow: 0 24px 50px -24px rgba(0, 0, 0, 0.75);
   --ts-glow: 0 0 0 1px rgba(59, 130, 246, 0.18), 0 18px 40px -18px rgba(59, 130, 246, 0.45);
 
-  /* Tipografías */
+  /* Vidrio (glassmorfismo sutil): fondo translúcido con leve degradado,
+     desenfoque del contenido de atrás, borde fino luminoso y un brillo
+     interior en la arista superior que simula el reflejo del cristal. */
+  --ts-glass-bg: linear-gradient(180deg, rgba(255, 255, 255, 0.055), rgba(255, 255, 255, 0.02));
+  --ts-glass-border: rgba(255, 255, 255, 0.12);
+  --ts-blur: blur(16px) saturate(150%);
+  --ts-glass-brillo: inset 0 1px 0 rgba(255, 255, 255, 0.09);
+
   --ts-font-sans: 'Inter', system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
   --ts-font-display: 'Sora', var(--ts-font-sans);
 
-  /* Sobrescribe variables de Bootstrap para integrar el tema oscuro */
   --bs-body-color: var(--ts-text);
   --bs-primary: var(--ts-primary);
   --bs-primary-rgb: 59, 130, 246;
@@ -76,13 +80,13 @@
 * {
   box-sizing: border-box;
 }
-
 html,
-body {
+body,
+#root {
   margin: 0;
   padding: 0;
+  min-height: 100%;
 }
-
 body {
   min-height: 100vh;
   color: var(--ts-text);
@@ -95,9 +99,6 @@ body {
 
 /* ----------------------------------------------------------------------------
    03. FONDO
-   Dos capas fijas: (a) malla de halos de color con degradados radiales y
-   (b) una rejilla muy tenue que aporta textura "tecnológica". Ambas van
-   detrás del contenido (z-index negativo) y no capturan el ratón.
 ---------------------------------------------------------------------------- */
 body::before,
 body::after {
@@ -107,8 +108,6 @@ body::after {
   z-index: -1;
   pointer-events: none;
 }
-
-/* (a) Malla de color en degradado */
 body::before {
   background:
     radial-gradient(1200px 700px at 80% -10%, rgba(34, 211, 238, 0.12), transparent 55%),
@@ -116,8 +115,6 @@ body::before {
     radial-gradient(900px 600px at 50% 120%, rgba(99, 102, 241, 0.14), transparent 55%),
     linear-gradient(180deg, var(--ts-bg-1) 0%, var(--ts-bg-2) 50%, var(--ts-bg-3) 100%);
 }
-
-/* (b) Rejilla sutil, desvanecida hacia los bordes con una máscara radial */
 body::after {
   background-image:
     linear-gradient(rgba(255, 255, 255, 0.025) 1px, transparent 1px),
@@ -137,17 +134,12 @@ h1, h2, h3, h4, h5, h6 {
   letter-spacing: -0.02em;
   line-height: 1.15;
 }
-
 .seccion-titulo {
   font-size: clamp(1.9rem, 4vw, 2.8rem);
 }
-
-/* Texto secundario atenuado */
 .texto-muted {
   color: var(--ts-text-muted) !important;
 }
-
-/* Texto con relleno en degradado azul → cian */
 .texto-gradiente {
   background: linear-gradient(90deg, var(--ts-primary) 0%, var(--ts-accent) 100%);
   -webkit-background-clip: text;
@@ -155,12 +147,10 @@ h1, h2, h3, h4, h5, h6 {
   -webkit-text-fill-color: transparent;
   color: transparent;
 }
-
 a {
   color: var(--ts-primary);
   text-decoration: none;
 }
-
 a:hover {
   color: var(--ts-accent);
 }
@@ -170,18 +160,13 @@ a:hover {
 ---------------------------------------------------------------------------- */
 .seccion {
   padding: 6rem 0;
-  /* Compensa el navbar fijo cuando se navega con anclas (#) */
   scroll-margin-top: 80px;
 }
-
-/* Variante con fondo levemente diferenciado para alternar secciones */
 .seccion-alt {
   background: var(--ts-surface);
   border-top: 1px solid var(--ts-border);
   border-bottom: 1px solid var(--ts-border);
 }
-
-/* Etiqueta superior de cada sección (texto pequeño en mayúsculas) */
 .seccion-eyebrow {
   display: inline-block;
   text-transform: uppercase;
@@ -193,12 +178,11 @@ a:hover {
 
 /* ----------------------------------------------------------------------------
    06. BOTONES
-   Tres variantes: primary (degradado), outline (vidrio) y ghost (texto).
-   Todas alinean su texto e icono y desplazan la flecha al pasar el ratón.
 ---------------------------------------------------------------------------- */
 .btn-ts-primary,
 .btn-ts-outline,
-.btn-ts-ghost {
+.btn-ts-ghost,
+.btn-ts-danger {
   display: inline-flex;
   align-items: center;
   gap: 0.4rem;
@@ -207,11 +191,10 @@ a:hover {
   transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.2s ease,
     border-color 0.2s ease, color 0.2s ease, filter 0.2s ease;
 }
-
-/* Flecha que se desplaza ligeramente en hover (micro-interacción) */
 .btn-ts-primary svg,
 .btn-ts-outline svg,
-.btn-ts-ghost svg {
+.btn-ts-ghost svg,
+.btn-ts-danger svg {
   transition: transform 0.2s ease;
 }
 .btn-ts-primary:hover svg,
@@ -219,8 +202,6 @@ a:hover {
 .btn-ts-ghost:hover svg {
   transform: translateX(3px);
 }
-
-/* Primario: degradado azul con brillo */
 .btn-ts-primary {
   background: linear-gradient(90deg, var(--ts-primary) 0%, var(--ts-primary-strong) 100%);
   border: none;
@@ -235,8 +216,11 @@ a:hover {
   filter: brightness(1.08);
   box-shadow: 0 18px 34px -12px rgba(59, 130, 246, 0.95);
 }
-
-/* Outline: superficie de vidrio con borde fino */
+.btn-ts-primary:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  transform: none;
+}
 .btn-ts-outline {
   background: var(--ts-surface);
   border: 1px solid var(--ts-border);
@@ -250,8 +234,6 @@ a:hover {
   background: var(--ts-surface-strong);
   transform: translateY(-2px);
 }
-
-/* Ghost: solo texto + flecha (para enlaces secundarios como "Ver Caso") */
 .btn-ts-ghost {
   background: transparent;
   border: none;
@@ -262,11 +244,33 @@ a:hover {
 .btn-ts-ghost:focus {
   color: var(--ts-accent);
 }
+/* Danger: para acciones destructivas (Eliminar) del panel de Solicitudes */
+.btn-ts-danger {
+  background: rgba(244, 63, 94, 0.12);
+  border: 1px solid rgba(244, 63, 94, 0.35);
+  color: #fda4af;
+  padding: 0.55rem 1.2rem;
+}
+.btn-ts-danger:hover,
+.btn-ts-danger:focus {
+  background: rgba(244, 63, 94, 0.22);
+  border-color: rgba(244, 63, 94, 0.6);
+  color: #fff;
+  transform: translateY(-2px);
+}
+.btn-ts-danger:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  transform: none;
+}
+.btn-sm.btn-ts-outline,
+.btn-sm.btn-ts-danger {
+  padding: 0.4rem 0.9rem;
+  font-size: 0.85rem;
+}
 
 /* ----------------------------------------------------------------------------
    07. NAVBAR
-   Transparente sobre el hero y, al hacer scroll (clase .is-scrolled añadida
-   desde React), gana fondo con desenfoque, borde y sombra.
 ---------------------------------------------------------------------------- */
 .ts-navbar {
   background: transparent !important;
@@ -274,15 +278,13 @@ a:hover {
   transition: background 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease,
     padding 0.3s ease;
 }
-
 .ts-navbar.is-scrolled {
-  background: rgba(6, 9, 18, 0.82) !important;
-  backdrop-filter: blur(14px);
-  border-bottom-color: var(--ts-border);
+  background: rgba(6, 9, 18, 0.78) !important;
+  backdrop-filter: var(--ts-blur);
+  -webkit-backdrop-filter: var(--ts-blur);
+  border-bottom-color: var(--ts-glass-border);
   box-shadow: 0 12px 30px -22px rgba(0, 0, 0, 0.9);
 }
-
-/* Marca / logotipo (se reutiliza también en el footer) */
 .ts-brand {
   display: inline-flex;
   align-items: center;
@@ -292,7 +294,6 @@ a:hover {
   font-size: 1.3rem;
   color: var(--ts-heading) !important;
 }
-
 .ts-brand-mark {
   display: inline-flex;
   align-items: center;
@@ -304,8 +305,6 @@ a:hover {
   background: linear-gradient(145deg, rgba(59, 130, 246, 0.25), rgba(34, 211, 238, 0.10));
   border: 1px solid rgba(59, 130, 246, 0.35);
 }
-
-/* Enlaces del menú */
 .ts-navbar .nav-link {
   color: var(--ts-text-muted) !important;
   font-weight: 500;
@@ -315,14 +314,10 @@ a:hover {
 .ts-navbar .nav-link:focus {
   color: var(--ts-heading) !important;
 }
-
-/* El enlace que actúa como botón CTA debe mantener el texto blanco */
 .ts-navbar .nav-link.btn-ts-primary {
   color: #fff !important;
   padding: 0.55rem 1.4rem;
 }
-
-/* Botón hamburguesa */
 .ts-navbar .navbar-toggler {
   border-color: var(--ts-border);
 }
@@ -332,16 +327,12 @@ a:hover {
 
 /* ----------------------------------------------------------------------------
    08. HERO
-   Primera pantalla: insignia, titular grande, subtítulo, CTAs, métricas
-   y un panel de vidrio flotante a la derecha (solo en escritorio).
 ---------------------------------------------------------------------------- */
 .hero {
   padding-top: 9rem;
   padding-bottom: 5rem;
   overflow: hidden;
 }
-
-/* Insignia superior tipo "píldora" con punto luminoso */
 .hero-badge {
   display: inline-flex;
   align-items: center;
@@ -362,21 +353,17 @@ a:hover {
   background: var(--ts-accent);
   box-shadow: 0 0 0 4px rgba(34, 211, 238, 0.16);
 }
-
 .hero-titulo {
   font-size: clamp(2.4rem, 6vw, 4.2rem);
   font-weight: 800;
   line-height: 1.05;
   margin-bottom: 1.5rem;
 }
-
 .hero-sub {
   font-size: 1.15rem;
   max-width: 36rem;
   margin-bottom: 2rem;
 }
-
-/* Fila de métricas separadas por líneas finas */
 .hero-stats {
   display: flex;
   flex-wrap: wrap;
@@ -404,15 +391,15 @@ a:hover {
   line-height: 1;
   margin-bottom: 0.2rem;
 }
-
-/* Panel de vidrio flotante */
 .hero-panel {
   position: relative;
   padding: 1.85rem;
   border-radius: var(--ts-radius);
-  background: linear-gradient(180deg, rgba(255, 255, 255, 0.06), rgba(255, 255, 255, 0.02));
-  border: 1px solid var(--ts-border);
-  box-shadow: var(--ts-shadow), var(--ts-glow);
+  background: var(--ts-glass-bg);
+  backdrop-filter: var(--ts-blur);
+  -webkit-backdrop-filter: var(--ts-blur);
+  border: 1px solid var(--ts-glass-border);
+  box-shadow: var(--ts-glass-brillo), var(--ts-shadow), var(--ts-glow);
 }
 .hero-panel-cabecera {
   display: flex;
@@ -425,8 +412,6 @@ a:hover {
 
 /* ----------------------------------------------------------------------------
    09. CHIP DE ICONO
-   Cuadro redondeado con degradado que contiene un icono SVG. Tamaño normal
-   y variante pequeña (.ts-icono-sm).
 ---------------------------------------------------------------------------- */
 .ts-icono {
   display: inline-flex;
@@ -452,20 +437,23 @@ a:hover {
 ---------------------------------------------------------------------------- */
 .ts-card {
   position: relative;
-  background: var(--ts-surface);
-  border: 1px solid var(--ts-border);
+  background: var(--ts-glass-bg);
+  backdrop-filter: var(--ts-blur);
+  -webkit-backdrop-filter: var(--ts-blur);
+  border: 1px solid var(--ts-glass-border);
   border-radius: var(--ts-radius);
+  box-shadow: var(--ts-glass-brillo);
   color: var(--ts-text);
   height: 100%;
+  display: flex;
+  flex-direction: column;
   transition: transform 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
 }
 .ts-card:hover {
   transform: translateY(-6px);
   border-color: rgba(59, 130, 246, 0.5);
-  box-shadow: var(--ts-shadow);
+  box-shadow: var(--ts-glass-brillo), var(--ts-shadow);
 }
-
-/* Línea de acento que aparece arriba de las tarjetas de casos al hover */
 .caso-card::after {
   content: '';
   position: absolute;
@@ -481,8 +469,6 @@ a:hover {
 .caso-card:hover::after {
   opacity: 1;
 }
-
-/* Etiqueta de sector dentro de las tarjetas de casos */
 .ts-chip {
   display: inline-flex;
   align-items: center;
@@ -499,8 +485,6 @@ a:hover {
 
 /* ----------------------------------------------------------------------------
    11. ACORDEÓN (SERVICIOS)
-   Reasignamos las variables nativas de Bootstrap para adaptarlo al tema
-   oscuro, incluido el icono de la flecha (SVG en data-uri).
 ---------------------------------------------------------------------------- */
 .accordion.ts-accordion {
   --bs-accordion-bg: transparent;
@@ -515,9 +499,12 @@ a:hover {
   --bs-accordion-btn-active-icon: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='%2322d3ee'%3e%3cpath fill-rule='evenodd' d='M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z'/%3e%3c/svg%3e");
 }
 .ts-accordion .accordion-item {
-  background: transparent;
-  border: 1px solid var(--ts-border);
+  background: var(--ts-glass-bg);
+  backdrop-filter: var(--ts-blur);
+  -webkit-backdrop-filter: var(--ts-blur);
+  border: 1px solid var(--ts-glass-border);
   border-radius: var(--ts-radius) !important;
+  box-shadow: var(--ts-glass-brillo);
   margin-bottom: 1rem;
   overflow: hidden;
   transition: border-color 0.3s ease;
@@ -538,7 +525,6 @@ a:hover {
 
 /* ----------------------------------------------------------------------------
    12. LISTA DE BENEFICIOS
-   Lista sin viñetas con un "check" de acento como marcador.
 ---------------------------------------------------------------------------- */
 .ts-beneficios {
   list-style: none;
@@ -568,11 +554,15 @@ a:hover {
    13. MODAL (CASOS)
 ---------------------------------------------------------------------------- */
 .ts-modal .modal-content {
-  background: linear-gradient(180deg, var(--ts-bg-3), var(--ts-bg-2));
-  border: 1px solid var(--ts-border);
+  /* Vidrio más opaco que las tarjetas: el modal flota sobre contenido
+     variado y su texto debe seguir leyéndose sin esfuerzo. */
+  background: linear-gradient(180deg, rgba(13, 19, 38, 0.88), rgba(8, 12, 24, 0.92));
+  backdrop-filter: var(--ts-blur);
+  -webkit-backdrop-filter: var(--ts-blur);
+  border: 1px solid var(--ts-glass-border);
   color: var(--ts-text);
   border-radius: var(--ts-radius);
-  box-shadow: var(--ts-shadow);
+  box-shadow: var(--ts-glass-brillo), var(--ts-shadow);
 }
 .ts-modal .modal-header,
 .ts-modal .modal-footer {
@@ -584,8 +574,6 @@ a:hover {
 .ts-modal .btn-close {
   filter: invert(1) grayscale(1) brightness(1.6);
 }
-
-/* Encabezado de cada bloque dentro del modal (Problema / Solución / …) */
 .ts-bloque-modal h6 {
   color: var(--ts-accent);
   text-transform: uppercase;
@@ -596,15 +584,12 @@ a:hover {
 
 /* ----------------------------------------------------------------------------
    14. TIMELINE (PROCESO)
-   Lista vertical con una línea en degradado y "puntos" que contienen un
-   icono. El contenido de cada etapa va a la derecha del punto.
 ---------------------------------------------------------------------------- */
 .ts-timeline {
   position: relative;
   margin-top: 3rem;
   padding-left: 3.5rem;
 }
-/* Línea vertical alineada con el centro de los puntos */
 .ts-timeline::before {
   content: '';
   position: absolute;
@@ -621,7 +606,6 @@ a:hover {
 .ts-timeline-item:last-child {
   padding-bottom: 0;
 }
-/* Punto con icono */
 .ts-timeline-dot {
   position: absolute;
   left: -3.5rem;
@@ -644,7 +628,6 @@ a:hover {
   color: var(--ts-accent);
   font-weight: 600;
 }
-/* Tarjeta sutil que envuelve el contenido de cada etapa */
 .ts-timeline-contenido {
   background: var(--ts-surface);
   border: 1px solid var(--ts-border);
@@ -658,29 +641,46 @@ a:hover {
 }
 
 /* ----------------------------------------------------------------------------
-   15. FORMULARIO DE CONTACTO
+   15. FORMULARIO (contacto y panel de solicitudes)
 ---------------------------------------------------------------------------- */
-.ts-form .form-control {
+.ts-form .form-control,
+.ts-form .form-select,
+.form-control,
+.form-select {
   background: var(--ts-surface);
   border: 1px solid var(--ts-border);
   color: var(--ts-text);
   padding: 0.7rem 0.9rem;
 }
-.ts-form .form-control:focus {
+.ts-form .form-control:focus,
+.ts-form .form-select:focus,
+.form-control:focus,
+.form-select:focus {
   background: var(--ts-surface-strong);
   border-color: var(--ts-primary);
   box-shadow: 0 0 0 0.2rem rgba(59, 130, 246, 0.2);
   color: var(--ts-text);
 }
-.ts-form .form-control::placeholder {
+.form-select option {
+  background: var(--ts-bg-2);
+  color: var(--ts-text);
+}
+.ts-form .form-control::placeholder,
+.form-control::placeholder {
   color: var(--ts-text-muted);
 }
-.ts-form .form-label {
+.ts-form .form-label,
+.form-label {
   color: var(--ts-text);
   font-weight: 500;
 }
-
-/* Lista de datos de contacto (correo / teléfono) con chip de icono */
+.invalid-feedback {
+  color: #fda4af;
+}
+.form-control.is-invalid,
+.form-select.is-invalid {
+  border-color: var(--ts-danger);
+}
 .ts-contacto-lista {
   display: grid;
   gap: 1rem;
@@ -727,7 +727,6 @@ a:hover {
     padding-top: 7.5rem;
   }
 }
-
 @media (max-width: 768px) {
   .seccion {
     padding: 4.5rem 0;
@@ -738,12 +737,31 @@ a:hover {
   .hero-stat-valor {
     font-size: 1.6rem;
   }
+  .ts-panel-tabs {
+    flex-wrap: wrap;
+  }
+}
+
+/* ----------------------------------------------------------------------------
+   17b. FALLBACK SIN BACKDROP-FILTER
+   Si el navegador no soporta el desenfoque, las superficies de vidrio
+   pasan a un fondo casi opaco para que el texto siga siendo legible.
+---------------------------------------------------------------------------- */
+@supports not (backdrop-filter: blur(1px)) {
+  .ts-card,
+  .hero-panel,
+  .ts-accordion .accordion-item,
+  .ts-panel-header,
+  .ts-fila-eliminar {
+    background: rgba(13, 19, 38, 0.92);
+  }
+  .ts-modal .modal-content {
+    background: linear-gradient(180deg, var(--ts-bg-3), var(--ts-bg-2));
+  }
 }
 
 /* ----------------------------------------------------------------------------
    18. ACCESIBILIDAD · respeta "reducir movimiento"
-   Si el usuario lo activa en su sistema, desactivamos animaciones y
-   transiciones (el contenido sigue siendo visible).
 ---------------------------------------------------------------------------- */
 @media (prefers-reduced-motion: reduce) {
   :root {
@@ -755,4 +773,178 @@ a:hover {
     animation: none !important;
     transition: none !important;
   }
+}
+
+/* ----------------------------------------------------------------------------
+   19. PANEL DE SOLICITUDES (CRUD conectado a la API)
+   Todo lo que compone /solicitudes: cabecera, tabs, buscador, tarjetas de
+   solicitud, badges de estado, spinner y estados de error/vacío. Reutiliza
+   los mismos tokens de diseño para que se sienta parte de la misma marca.
+---------------------------------------------------------------------------- */
+.ts-panel {
+  min-height: 100vh;
+  padding-bottom: 6rem;
+}
+.ts-panel-header {
+  padding: 2.5rem 0 1.5rem;
+  border-bottom: 1px solid var(--ts-glass-border);
+  background: var(--ts-glass-bg);
+  backdrop-filter: var(--ts-blur);
+  -webkit-backdrop-filter: var(--ts-blur);
+}
+.ts-panel-volver {
+  display: inline-flex;
+  align-items: center;
+  color: var(--ts-text-muted);
+  font-weight: 500;
+  font-size: 0.9rem;
+}
+.ts-panel-volver:hover {
+  color: var(--ts-accent);
+}
+.ts-panel-tabs {
+  display: flex;
+  gap: 0.6rem;
+}
+.ts-panel-tab {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.6rem 1.1rem;
+  border-radius: 999px;
+  font-weight: 600;
+  font-size: 0.9rem;
+  color: var(--ts-text-muted);
+  border: 1px solid transparent;
+  transition: all 0.2s ease;
+}
+.ts-panel-tab:hover {
+  color: var(--ts-heading);
+  background: var(--ts-surface-strong);
+}
+.ts-panel-tab.is-active {
+  color: var(--ts-heading);
+  background: linear-gradient(90deg, rgba(59, 130, 246, 0.22), rgba(34, 211, 238, 0.12));
+  border-color: rgba(59, 130, 246, 0.4);
+  box-shadow: var(--ts-glass-brillo);
+}
+.ts-panel-contenido {
+  padding-top: 2.5rem;
+}
+
+/* Buscador */
+.ts-buscador {
+  position: relative;
+  max-width: 26rem;
+}
+.ts-buscador-icono {
+  position: absolute;
+  left: 0.9rem;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--ts-text-muted);
+  pointer-events: none;
+}
+.ts-buscador-input.form-control {
+  padding-left: 2.6rem;
+  border-radius: 999px;
+  backdrop-filter: var(--ts-blur);
+  -webkit-backdrop-filter: var(--ts-blur);
+}
+
+/* Badges de estado */
+.badge.ts-badge-warning { background: rgba(251, 191, 36, 0.15); color: #fcd34d; }
+.badge.ts-badge-success { background: rgba(52, 211, 153, 0.15); color: #6ee7b7; }
+.badge.ts-badge-info { background: rgba(34, 211, 238, 0.15); color: #67e8f9; }
+.badge.ts-badge-danger { background: rgba(244, 63, 94, 0.15); color: #fda4af; }
+.badge.ts-badge-secondary { background: rgba(148, 163, 184, 0.15); color: #cbd5e1; }
+.badge.rounded-pill {
+  font-weight: 600;
+  font-size: 0.72rem;
+  letter-spacing: 0.03em;
+  padding: 0.4rem 0.75rem;
+}
+
+/* Tarjeta de solicitud */
+.ts-solicitud-card {
+  padding: 1.5rem;
+}
+.ts-solicitud-meta {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  border-top: 1px solid var(--ts-border);
+  padding-top: 1rem;
+  margin-top: auto;
+}
+.ts-solicitud-id {
+  font-size: 0.7rem;
+  color: var(--ts-text-muted);
+  word-break: break-all;
+}
+
+/* Estado de carga / spinner propio (sin depender de Bootstrap JS) */
+.ts-estado-carga {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 5rem 1rem;
+  text-align: center;
+}
+.ts-spinner {
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  border: 3px solid var(--ts-border);
+  border-top-color: var(--ts-accent);
+  animation: ts-girar 0.8s linear infinite;
+}
+.ts-estado-vacio {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 4rem 1rem;
+  text-align: center;
+  color: var(--ts-text-muted);
+  border: 1px dashed var(--ts-border);
+  border-radius: var(--ts-radius);
+}
+
+/* Alertas (error de API, confirmaciones) */
+.ts-alerta {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.75rem;
+  padding: 1rem 1.25rem;
+  border-radius: var(--ts-radius-sm);
+  font-size: 0.92rem;
+}
+.ts-alerta-danger {
+  background: rgba(244, 63, 94, 0.10);
+  border: 1px solid rgba(244, 63, 94, 0.3);
+  color: #fecdd3;
+}
+
+/* Lista dedicada de "Eliminar Solicitud" */
+.ts-lista-eliminar {
+  display: grid;
+  gap: 0.75rem;
+  padding: 0;
+  margin: 0;
+}
+.ts-fila-eliminar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 1rem 1.25rem;
+  background: var(--ts-glass-bg);
+  border: 1px solid var(--ts-glass-border);
+  border-radius: var(--ts-radius-sm);
+  box-shadow: var(--ts-glass-brillo);
+  transition: border-color 0.2s ease;
+}
+.ts-fila-eliminar:hover {
+  border-color: rgba(244, 63, 94, 0.4);
 }

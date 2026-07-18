@@ -27,18 +27,15 @@ function HeroSection() {
               <span className="hero-badge-dot" aria-hidden="true" />
               Consultoría de TI para empresas
             </span>
-
             <h1 className="hero-titulo anim-hero-titulo">
               Transformamos tu empresa con{' '}
               <span className="texto-gradiente">tecnología que impulsa resultados</span>
             </h1>
-
             <p className="hero-sub anim-hero-sub texto-muted">
               En TechSolve diseñamos soluciones digitales seguras, escalables y a medida.
               Acompañamos a tu organización desde la estrategia hasta la operación, con un
               equipo experto comprometido con tu éxito.
             </p>
-
             <div className="anim-hero-cta d-flex flex-wrap gap-3">
               <a href="#contacto" className="btn btn-ts-primary">
                 Solicitar consultoría
@@ -48,7 +45,6 @@ function HeroSection() {
                 Ver servicios
               </a>
             </div>
-
             <div className="hero-stats anim-hero-cta">
               {estadisticas.map((stat) => (
                 <div className="hero-stat" key={stat.etiqueta}>
@@ -58,7 +54,6 @@ function HeroSection() {
               ))}
             </div>
           </Col>
-
           <Col lg={5} className="d-none d-lg-block">
             <div className="hero-panel anim-hero-art">
               <div className="hero-panel-cabecera">

@@ -1,3 +1,4 @@
+import { Link } from 'react-router-dom';
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
@@ -13,7 +14,6 @@ const enlaces = [
 
 function Footer() {
   const anio = new Date().getFullYear();
-
   return (
     <footer className="ts-footer">
       <Container>
@@ -39,6 +39,9 @@ function Footer() {
                     <a href={enlace.href}>{enlace.texto}</a>
                   </li>
                 ))}
+                <li className="list-inline-item ms-md-3 my-1">
+                  <Link to="/solicitudes">Panel de Solicitudes</Link>
+                </li>
               </ul>
             </nav>
           </Col>

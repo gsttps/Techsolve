@@ -48,4 +48,4 @@ export const casosEstudio = [
       'Plan de respuesta ante incidentes operativo y probado',
     ],
   },
-]
+];

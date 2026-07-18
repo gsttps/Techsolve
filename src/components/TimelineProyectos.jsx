@@ -14,7 +14,6 @@ function TimelineProyectos() {
           titulo="Nuestro proceso, paso a paso"
           subtitulo="Un método probado que da claridad y control en cada etapa del proyecto."
         />
-
         <Row className="justify-content-center">
           <Col lg={8}>
             <ol className="ts-timeline list-unstyled">

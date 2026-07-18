@@ -15,7 +15,6 @@ function ServiciosAccordion() {
           titulo="Servicios a la medida de tu empresa"
           subtitulo="Cubrimos el ciclo completo de tu transformación digital con equipos especializados en cada disciplina."
         />
-
         <Row className="justify-content-center">
           <Col lg={9} className="reveal">
             <Accordion defaultActiveKey="0" className="ts-accordion">

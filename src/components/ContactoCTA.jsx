@@ -5,9 +5,9 @@ import Col from 'react-bootstrap/Col';
 import Form from 'react-bootstrap/Form';
 import Alert from 'react-bootstrap/Alert';
 import Icon from './Icon.jsx';
+import { esEmailValido } from '../utils/validacion.js';
 
 const valoresIniciales = { nombre: '', email: '', mensaje: '' };
-const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
 function validar(valores) {
   const errores = {};
@@ -16,7 +16,7 @@ function validar(valores) {
   }
   if (!valores.email.trim()) {
     errores.email = 'Necesitamos un correo para responderte.';
-  } else if (!EMAIL_REGEX.test(valores.email)) {
+  } else if (!esEmailValido(valores.email)) {
     errores.email = 'El correo no parece válido.';
   }
   if (!valores.mensaje.trim()) {
@@ -44,6 +44,7 @@ function ContactoCTA() {
     setErrores(nuevosErrores);
     if (Object.keys(nuevosErrores).length === 0) {
       // Sin backend: simulamos el envío y mostramos confirmación.
+      // (El flujo con backend real -CRUD contra la API- vive en /solicitudes).
       setEnviado(true);
       setValores(valoresIniciales);
     }
@@ -63,7 +64,6 @@ function ContactoCTA() {
               Cuéntanos tu desafío y te propondremos un plan claro, sin compromiso.
               Nuestro equipo te responderá en menos de 24 horas.
             </p>
-
             <ul className="ts-contacto-lista list-unstyled mb-0">
               <li className="ts-contacto-item">
                 <span className="ts-icono ts-icono-sm" aria-hidden="true">
@@ -85,7 +85,6 @@ function ContactoCTA() {
               </li>
             </ul>
           </Col>
-
           <Col lg={7} className="reveal rd-2">
             <div className="ts-card p-4 p-md-5">
               {enviado && (
@@ -98,7 +97,6 @@ function ContactoCTA() {
                   responderemos muy pronto.
                 </Alert>
               )}
-
               <Form noValidate onSubmit={manejarEnvio} className="ts-form">
                 <Form.Group className="mb-3" controlId="campoNombre">
                   <Form.Label>Nombre</Form.Label>
@@ -114,7 +112,6 @@ function ContactoCTA() {
                     {errores.nombre}
                   </Form.Control.Feedback>
                 </Form.Group>
-
                 <Form.Group className="mb-3" controlId="campoEmail">
                   <Form.Label>Correo electrónico</Form.Label>
                   <Form.Control
@@ -129,7 +126,6 @@ function ContactoCTA() {
                     {errores.email}
                   </Form.Control.Feedback>
                 </Form.Group>
-
                 <Form.Group className="mb-4" controlId="campoMensaje">
                   <Form.Label>Mensaje</Form.Label>
                   <Form.Control
@@ -145,7 +141,6 @@ function ContactoCTA() {
                     {errores.mensaje}
                   </Form.Control.Feedback>
                 </Form.Group>
-
                 <button type="submit" className="btn btn-ts-primary w-100">
                   Enviar mensaje
                   <Icon name="arrow-right" size={18} className="ms-1" />
