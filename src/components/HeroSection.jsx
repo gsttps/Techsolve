@@ -3,7 +3,7 @@ import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import Icon from './Icon.jsx';
 
-// Datos del panel flotante del hero (evita texto hardcodeado repetido).
+// Datos del panel del hero (evita texto hardcodeado repetido).
 const panelItems = [
   'Diagnóstico tecnológico integral',
   'Hoja de ruta a 12 meses',
@@ -48,25 +48,45 @@ function HeroSection() {
             <div className="hero-stats anim-hero-cta">
               {estadisticas.map((stat) => (
                 <div className="hero-stat" key={stat.etiqueta}>
-                  <div className="hero-stat-valor texto-gradiente">{stat.valor}</div>
+                  <div className="hero-stat-valor">{stat.valor}</div>
                   <small className="texto-muted">{stat.etiqueta}</small>
                 </div>
               ))}
             </div>
           </Col>
+
+          {/* Firma visual: una "consola de diagnóstico" que muestra el mismo
+              plan estratégico como salida de terminal — habla el idioma del
+              cliente (sistemas / ingeniería). Solo presentación. */}
           <Col lg={5} className="d-none d-lg-block">
-            <div className="hero-panel anim-hero-art">
-              <div className="hero-panel-cabecera">
-                <span className="ts-icono ts-icono-sm" aria-hidden="true">
-                  <Icon name="target" size={22} />
+            <div className="hero-consola anim-hero-art">
+              <div className="hero-consola-barra">
+                <span className="hero-consola-dots" aria-hidden="true">
+                  <i />
+                  <i />
+                  <i />
                 </span>
-                <strong>Plan estratégico TI</strong>
+                <span className="hero-consola-ruta">techsolve@core: ~/diagnostico</span>
               </div>
-              <ul className="ts-beneficios">
-                {panelItems.map((item) => (
-                  <li key={item}>{item}</li>
-                ))}
-              </ul>
+              <div className="hero-consola-cuerpo">
+                <p className="hero-consola-prompt">
+                  <span aria-hidden="true">$</span> run diagnostico --empresa
+                </p>
+                <ul className="hero-consola-lista">
+                  {panelItems.map((item) => (
+                    <li key={item}>
+                      <span className="hero-consola-ok" aria-hidden="true">
+                        OK
+                      </span>
+                      {item}
+                    </li>
+                  ))}
+                </ul>
+                <p className="hero-consola-pie">
+                  <span className="hero-consola-cursor" aria-hidden="true" />
+                  uptime 99.98% · plan estratégico listo
+                </p>
+              </div>
             </div>
           </Col>
         </Row>
